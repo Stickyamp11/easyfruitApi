@@ -1,7 +1,9 @@
 from asyncio.windows_events import NULL
 from flask import Flask, jsonify, request, render_template, Response,Blueprint
 from flask_mysqldb import MySQL
-from app import mysql
+from http import HTTPStatus
+
+from mysqlconnection import mysql
 
 # imports required to work properly
 # define the blueprint
