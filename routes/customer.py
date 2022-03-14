@@ -9,6 +9,7 @@ from models.customerModel import Customer
 # imports required to work properly
 # define the blueprint
 
+
 blueprint_customer = Blueprint(name="blueprint_customer", import_name=__name__)
 
 @blueprint_customer.route('/customer',methods=['GET'])
@@ -35,9 +36,9 @@ def createUser():
     name = userParams['name']
     email = userParams['email']
     phone = userParams['phone']
-    passw = userParams['passw']
+    passwd = userParams['passwd']
 
-    aux_product = Customer(name, email, phone, passw)
+    aux_product = Customer(name, email, phone, passwd)
     db.session.add(aux_product)
     db.session.commit()
 
@@ -55,8 +56,8 @@ def updateUser(id):
             customer.email = customerParams['email']
         if (customerParams.get('phone')):
             customer.phone = customerParams['phone']
-        if (customerParams.get('passw')):
-            customer.passw = customerParams['passw']
+        if (customerParams.get('passwd')):
+            customer.passw = customerParams['passwd']
 
         log_db = db.session.commit()
 

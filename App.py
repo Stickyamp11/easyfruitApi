@@ -48,13 +48,13 @@ print(os.environ.get('MYSQL_HOST'))
 #app = create_app()
 
 # load modules
-#from routes.customer import blueprint_customer
+from routes.customer import blueprint_customer
 from routes.store import blueprint_store
 #from routes.productCategory import blueprint_productCategory
 from routes.product import blueprint_product
 #from routes.order import blueprint_order
 # register blueprints. ensure that all paths are versioned!
-#app.register_blueprint(blueprint_customer, url_prefix='/api/v1')
+app.register_blueprint(blueprint_customer, url_prefix='/api/v1')
 app.register_blueprint(blueprint_store, url_prefix='/api/v1')
 #app.register_blueprint(blueprint_productCategory, url_prefix='/api/v1')
 app.register_blueprint(blueprint_product, url_prefix='/api/v1')

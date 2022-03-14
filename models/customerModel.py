@@ -5,17 +5,17 @@ class Customer(db.Model):
         name = db.Column(db.String(70))
         email = db.Column(db.String(70))
         phone = db.Column(db.String(70))
-        passw = db.Column(db.String(300))
+        passwd = db.Column(db.String(300))
 
         def __init__(self, name, email, phone, passw):
             self.name = name,
             self.email = email,
             self.phone = phone,
-            self.passw = passw
+            self.passwd = passw
 
         def to_dict(self):
             return {'id': self.id, 'name': self.name, 'email': self.email, 'phone': self.phone,
-                    'passw': self.passw}
+                    'passwd': self.passwd}
 
 
 #class ProductSchema(ma.Schema):
