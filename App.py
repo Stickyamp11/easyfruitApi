@@ -12,10 +12,9 @@ import jwt
 from werkzeug.security import generate_password_hash,check_password_hash
 import datetime
 from functools import wraps
-#from flasgger import swag_from
 from http import HTTPStatus
 from config import MYSQL_HOST
-
+from flask_cors import cross_origin
 
 
 #if __name__ == '__main__':
@@ -25,7 +24,7 @@ from config import MYSQL_HOST
 
 #def create_app():
 
-    # init Flask app
+# init Flask app
 app = Flask(__name__)
 CORS(app)
 
@@ -61,9 +60,23 @@ print(os.environ.get('MYSQL_HOST'))
 
 
 
-print(os.urandom(12))
+engine_container = db.get_engine(app)
 
 #app = create_app()
+
+
+
+@app.after_request
+@cross_origin()
+def cleanup(Response):
+    """
+    This method cleans up the session object and also closes the connection pool using the dispose method.
+    """
+    db.session.close()
+    engine_container.dispose()
+
+    #Original response here
+    return Response;
 
 
 
@@ -71,8 +84,6 @@ print(os.urandom(12))
 
 
 # load modules
-
-
 from routes.customer import blueprint_customer
 from routes.store import blueprint_store
 from routes.productCategory import blueprint_productCategory

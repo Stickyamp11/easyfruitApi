@@ -129,6 +129,16 @@ def deleteProduct(id):
        product = Product.query.get(id)
        db.session.delete(product)
        db.session.commit()
+
+       #Now delete image residual
+       tempPath = "../src/temp/"
+       pathToSave = "../src/"
+       urlToSave = "http://localhost:3000/api/v1/product/get_image/"
+       tempFilename = str(product.id) + "_product.png"
+       filename = str(product.id) + "_product"
+       os.remove(os.path.join(rute, tempPath + tempFilename));
+       os.remove(os.path.join(rute, pathToSave + filename));
+
        return jsonify('OK'), 201
 
     except:
