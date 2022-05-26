@@ -49,7 +49,7 @@ def getAllProductsOfCartFromCustomer(customerId):
         for product in rs:
             sendData.append({'id': product.id, 'name': product.name, 'product_img': product.product_img,
                              'description': product.description, 'price_per_kg': product.price_per_kg, 'price_per_unit': product.price_per_unit,
-                             'packQuantity': product.packQuantity, 'fCategory': product.fCategory, 'fStore': product.fStore, 'methodsAllowed': product.methodsAllowed })
+                             'packQuantity': product.packQuantity, 'price_per_pack': product.price_per_pack, 'fCategory': product.fCategory, 'fStore': product.fStore, 'methodsAllowed': product.methodsAllowed })
 
         print(sendData)
         return jsonify(sendData), 201

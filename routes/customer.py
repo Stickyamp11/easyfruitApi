@@ -81,9 +81,10 @@ def createUser():
     phone = userParams['phone']
     passwd = userParams['passwd']
     zip = userParams['zip']
+    address = userParams['address']
     seller = userParams['seller']
     hash_passwd = generate_password_hash(passwd, method='sha256')
-    aux_customer = Customer(name, email, phone, hash_passwd, zip, seller)
+    aux_customer = Customer(name, email, phone, hash_passwd, zip,address, seller)
     db.session.add(aux_customer)
     db.session.commit()
 
@@ -107,6 +108,8 @@ def updateUser(id):
             customer.passwd = generate_password_hash(customerParams['passwd'], method='sha256')
         if (customerParams.get('zip') and customerParams.get('zip') != ""):
             customer.zip = customerParams['zip']
+        if (customerParams.get('address') and customerParams.get('address') != ""):
+            customer.address = customerParams['address']
         if (customerParams.get('seller') and customerParams.get('seller') != ""):
             customer.seller = customerParams['seller']
 

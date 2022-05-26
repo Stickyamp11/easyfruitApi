@@ -6,6 +6,7 @@ from http import HTTPStatus
 
 from models.orderModel import Orden
 from models.orderItemModel import Ordenitem
+from models.customerModel import Customer
 from models.productModel import Product
 from utils.db import db
 # imports required to work properly
@@ -65,13 +66,14 @@ def createOrder():
     fCustomer = orderParams['fCustomer']
     fStore = orderParams['fStore']
     timesOrdered = 0
+    deliverOptions = orderParams['deliverOptions']
     if(orderParams['times_ordered'] == 0 or orderParams['times_ordered'] > 0):
         print('Hola entré al if del times_ordered en el create')
         timesOrdered = orderParams['times_ordered'] + 1
 
     print(timesOrdered)
 
-    newOrden = Orden(order_date,estimated_total,status, anotations, timesOrdered, fCustomer,fStore)
+    newOrden = Orden(order_date,estimated_total,status, anotations, timesOrdered, deliverOptions, fCustomer,fStore)
     db.session.add(newOrden)
     db.session.commit()
 
@@ -96,6 +98,8 @@ def updateOrder(id):
         order.status = orderParams['anotations']
     if (orderParams.get('times_ordered')):
         order.times_ordered = orderParams['times_ordered']
+    if (orderParams.get('deliverOptions')):
+        order.deliverOptions = orderParams['deliverOptions']
     if (orderParams.get('fCustomer')):
         order.fCustomer = orderParams['fCustomer']
     if (orderParams.get('fStore')):
@@ -220,6 +224,18 @@ def getAllOrdersFromStoreFull():
     for indexOrder,order in enumerate(orders):
         print('Hellow')
         jsonOrder = json.loads(json.dumps(order.to_dict()))
+
+        #Get customer info for the order
+        customerOrderInfo = db.session.query(Customer).filter(
+            Customer.id == order.fCustomer
+        ).first()
+
+        jsonOrder['customerPhone'] = customerOrderInfo.phone;
+        jsonOrder['customerEmail'] = customerOrderInfo.email;
+        jsonOrder['customerName'] = customerOrderInfo.name;
+        jsonOrder['customerAddress'] = customerOrderInfo.address;
+
+
         jsonOrder['items'] = []
 
 

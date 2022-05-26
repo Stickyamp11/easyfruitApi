@@ -9,21 +9,24 @@ class Orden(db.Model):
         status = db.Column(db.String(100))
         anotations = db.Column(db.String(100))
         times_ordered = db.Column(db.Integer())
+        deliverOptions = db.Column(db.String(100))
         fCustomer = db.Column(db.Integer)
         fStore = db.Column(db.Integer)
 
-        def __init__(self, order_date, estimated_total, status, anotations, times_ordered, fCustomer, fStore):
+        def __init__(self, order_date, estimated_total, status, anotations, times_ordered, deliverOptions, fCustomer, fStore):
             self.order_date = order_date,
             self.estimated_total = estimated_total,
             self.status = status,
             self.fCustomer = fCustomer,
             self.fStore = fStore,
             self.anotations = anotations,
-            self.times_ordered = times_ordered
+            self.times_ordered = times_ordered,
+            self.deliverOptions = deliverOptions
 
         def to_dict(self):
             print(self.order_date)
-            return {'id': self.id, 'order_date': str(self.order_date), 'estimated_total': self.estimated_total, 'status': self.status, 'anotations': self.anotations, 'times_ordered': self.times_ordered, 'fCustomer': self.fCustomer,
+            return {'id': self.id, 'order_date': str(self.order_date), 'estimated_total': self.estimated_total, 'status': self.status,
+                    'anotations': self.anotations, 'times_ordered': self.times_ordered, 'deliverOptions': self.deliverOptions, 'fCustomer': self.fCustomer,
                     'fStore': self.fStore}
 
 
