@@ -127,15 +127,27 @@ def updateProduct(id):
 def deleteProduct(id):
     try:
        product = Product.query.get(id)
+
+
+       tempPath = "../src/temp/"
+       pathToSave = "../src/"
+       tempFilename = str(product.id) + "_product.png"
+       filename = str(product.id) + "_product"
+       rute = os.path.dirname(__file__)
+       print('Voy a borrar el filename:')
+       print(filename)
+       print('Y el temp filename:')
+       print(tempFilename)
+
+
+
+       print(os.path.join(rute, tempPath + tempFilename))
+
+       # Now delete product
        db.session.delete(product)
        db.session.commit()
 
-       #Now delete image residual
-       tempPath = "../src/temp/"
-       pathToSave = "../src/"
-       urlToSave = "http://localhost:3000/api/v1/product/get_image/"
-       tempFilename = str(product.id) + "_product.png"
-       filename = str(product.id) + "_product"
+       # Now delete image residual
        os.remove(os.path.join(rute, tempPath + tempFilename));
        os.remove(os.path.join(rute, pathToSave + filename));
 

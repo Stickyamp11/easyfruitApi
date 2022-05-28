@@ -16,6 +16,7 @@ from http import HTTPStatus
 from config import MYSQL_HOST
 from flask_cors import cross_origin
 
+from sqlalchemy.pool import SingletonThreadPool, NullPool
 
 #if __name__ == '__main__':
 
@@ -37,11 +38,12 @@ app.config['SECRET_KEY'] = "fijowqfmmfiornrrqowngrowngoqwggri,cpvr"
 app.config['UPLOAD_FOLDER'] = '/src'
 
 SQLALCHEMY_ENGINE_OPTIONS = {
-    "max_overflow": 15,
+    #"max_overflow": 15,
     "pool_pre_ping": True,
     "pool_recycle": 600 * 600,
     "pool_size": 400,
-    "pool_timeout": 5
+    #"pool_timeout": 5,
+    "poolclass": SingletonThreadPool
 }
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = SQLALCHEMY_ENGINE_OPTIONS
 db = SQLAlchemy(app)
@@ -60,7 +62,7 @@ print(os.environ.get('MYSQL_HOST'))
 
 
 
-engine_container = db.get_engine(app)
+#engine_container = db.get_engine(app)
 
 #app = create_app()
 
@@ -73,7 +75,7 @@ def cleanup(Response):
     This method cleans up the session object and also closes the connection pool using the dispose method.
     """
     db.session.close()
-    engine_container.dispose()
+    #engine_container.dispose()
 
     #Original response here
     return Response;
