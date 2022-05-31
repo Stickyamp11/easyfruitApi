@@ -39,9 +39,6 @@ def check_token_middleware():
 #@cross_origin()
 @token_required
 def getAllProductsOfCartFromCustomer(customerId):
-        cart = db.session.query(Cart,Product).filter(
-            Cart.customerId == customerId).filter(Cart.productId == Product.id
-        ).all()
         statement = text("""SELECT Product.* FROM Product JOIN Cart WHERE Cart.productId = Product.id and Cart.customerId = """ + str(customerId))
         rs = db.session.execute(statement)
 
@@ -58,9 +55,6 @@ def getAllProductsOfCartFromCustomer(customerId):
 #@cross_origin()
 @token_required
 def getCounterOfCart(customerId):
-        cart = db.session.query(Cart,Product).filter(
-            Cart.customerId == customerId).filter(Cart.productId == Product.id
-        ).all()
         statement = text("""SELECT Count(Product.id) as counts FROM Product JOIN Cart WHERE Cart.productId = Product.id and Cart.customerId = """ + str(customerId))
         rs = db.session.execute(statement)
         print(rs)
@@ -98,11 +92,18 @@ def deleteProductFromCart():
         customerId = data['customerId']
         productId = data['productId']
 
-        productCart = db.session.query(Cart).filter(
-            Cart.customerId == customerId and Cart.productId == productId
-        ).first()
 
-        db.session.delete(productCart)
+        #productCart = db.session.query(Cart).filter(
+         #   Cart.customerId == customerId and Cart.productId == productId
+        #).first()
+
+        statement = text(
+            'DELETE FROM Cart WHERE Cart.productId = ' + str(productId) + ' AND Cart.customerId = ' + str(
+             customerId) )
+        print(statement)
+        rs = db.session.execute(statement)
+
+        #db.session.delete(productCart)
         db.session.commit()
         return jsonify('OK'), 201
 
